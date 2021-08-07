@@ -1,0 +1,4 @@
+{
+    "enable_image_fill": true, // 是否开启图片填充
+    "local_images_mode": false // 本地图片库模式
+}

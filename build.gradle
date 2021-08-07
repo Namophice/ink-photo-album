@@ -1,0 +1,33 @@
+plugins {
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+
+group 'icu.namophice'
+version '1.0-SNAPSHOT'
+description = 'slow'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.alibaba', name: 'fastjson', version: '1.2.76'
+    // RaspbarryPi驱动接口核心包
+    implementation group: 'com.pi4j', name: 'pi4j-core', version: '1.4'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'icu.namophice.inkphotoalbum.Main'
+        )
+    }
+}
