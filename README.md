@@ -4,11 +4,11 @@
 用Java编写的基于树莓派的电子墨水屏相册
 
 #### 效果图
-![微信图片_20210807122016](E:\System\Desktop\微信图片_20210807122016.jpg)
+![效果图1](https://images.gitee.com/uploads/images/2021/0807/125215_b6d4fd2e_7404037.jpeg "微信图片_20210807125140.jpg")
 
-![微信图片_20210807122026](E:\System\Desktop\微信图片_20210807122026.jpg)
+![效果图2](https://images.gitee.com/uploads/images/2021/0807/125242_cfcada7d_7404037.jpeg "微信图片_20210807125134.jpg")
 
-![微信图片_20210807122011](E:\System\Desktop\微信图片_20210807122011.jpg)
+![效果图3](https://images.gitee.com/uploads/images/2021/0807/125303_bedcd72e_7404037.jpeg "微信图片_20210807125148.jpg")
 
 #### 相关链接
     https://gitee.com/namophice/ink-photo-album
