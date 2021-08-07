@@ -12,10 +12,6 @@ sourceCompatibility = JavaVersion.VERSION_11
 repositories {
     mavenLocal()
     mavenCentral()
-    maven {
-        url namophiceNexusPublic
-        allowInsecureProtocol true
-    }
 }
 
 dependencies {
