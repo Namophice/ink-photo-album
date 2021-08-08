@@ -118,6 +118,11 @@ public class EPaper {
         }
     }
 
+    /**
+     * 初始化屏幕
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public void init() throws IOException, InterruptedException {
         CommonUtil.printLogToConsole("Init the driver ...");
 
