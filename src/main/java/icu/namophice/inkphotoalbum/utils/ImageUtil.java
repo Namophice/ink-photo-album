@@ -324,7 +324,7 @@ public class ImageUtil {
                 int randomNum = new Random().nextInt(0xffffff);
                 int binValue;
 
-                //0是黑  1是白 ，或者说数值小就靠近黑色，数值大就靠近白色
+                // 0是黑  1是白 ，或者说数值小就靠近黑色，数值大就靠近白色
                 if(oneGate > 0xec82e0) { // 大于一定数值，直接用白点
                     binValue = 0xffffff;
                 } else if(oneGate < 0x6ea050) { // 小于一定数值直接用黑点
