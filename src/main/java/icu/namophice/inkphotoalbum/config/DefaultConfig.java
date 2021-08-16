@@ -46,7 +46,7 @@ public class DefaultConfig {
         CommonUtil.printLogToConsole("Init config ...");
 
         File configFile = new File(CommonUtil.rootPath + "/" + configFileName);
-        if (configFile.exists()) {
+        if (configFile.exists() && !configFile.isDirectory()) {
 
             BufferedReader bufferedReader = null;
             final StringBuilder confJsonStrBuilder = new StringBuilder();
