@@ -1,6 +1,6 @@
 package icu.namophice.inkphotoalbum.config;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import icu.namophice.inkphotoalbum.utils.CommonUtil;
 
 import java.io.*;
