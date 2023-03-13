@@ -3,13 +3,24 @@ package icu.namophice.inkphotoalbum.config;
 import com.alibaba.fastjson2.JSONObject;
 import icu.namophice.inkphotoalbum.utils.CommonUtil;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 /**
  * @author Namophice
  * @createTime 2021-08-04 11:46
  */
 public class DefaultConfig {
+
+    public static final String[] imageUrlArr = {
+            "https://api.ixiaowai.cn/api/api.php",
+            "https://api.ixiaowai.cn/api/api2.php",
+            "https://api.ixiaowai.cn/mcapi/mcapi.php",
+            "https://api.ixiaowai.cn/mcapi/mcapi2.php",
+            "https://api.ixiaowai.cn/gqapi/gqapi.php",
+            "https://api.ixiaowai.cn/gqapi/gqapi2.php"
+    };
 
     public static final String configFileName = "conf.json";
     public static final String cacheFileName = "cache";
@@ -27,7 +38,7 @@ public class DefaultConfig {
      * 是否开启图片填充
      */
     private static boolean enable_image_fill = false;
-    public static final boolean enable_image_fill() {
+    public static boolean enable_image_fill() {
         return enable_image_fill;
     }
 
@@ -96,9 +107,8 @@ public class DefaultConfig {
 
     /**
      * 从cache文件获取imageIndex
-     * @throws IOException
      */
-    public static void initImageIndexWithCache() throws IOException {
+    public static void initImageIndexWithCache() {
         CommonUtil.printLogToConsole("Init image index with cache ...");
 
         DefaultConfig.imageIndex = 0;
@@ -126,7 +136,7 @@ public class DefaultConfig {
                 }
             }
 
-            if (lineStr.length() > 0) {
+            if (lineStr != null && lineStr.length() > 0) {
                 DefaultConfig.imageIndex = Integer.parseInt(lineStr);
             }
         }
