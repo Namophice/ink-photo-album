@@ -22,16 +22,14 @@ public class EPaper {
 
     private EPaper() {}
 
-    private static EPaper ePaper;
-
     public static EPaper getInstance() {
-        return ePaper = new EPaper();
+        return new EPaper();
     }
 
-    private static GpioPinDigitalOutput CS;
-    private static GpioPinDigitalOutput DC;
-    private static GpioPinDigitalOutput RST;
-    private static GpioPinDigitalInput BUSY;
+    private static final GpioPinDigitalOutput CS;
+    private static final GpioPinDigitalOutput DC;
+    private static final GpioPinDigitalOutput RST;
+    private static final GpioPinDigitalInput BUSY;
 
     public static SpiDevice spiDevice;
 
@@ -271,7 +269,7 @@ public class EPaper {
                 temp |= 0;
             }else if (grayNum < GRAY_SCALE_OF_4[2]) {
                 temp |= 1;
-            } else if(grayNum <= GRAY_SCALE_OF_4[3]){
+            } else {
                 temp |= 0;
             }
 
