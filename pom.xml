@@ -6,7 +6,7 @@
 
     <groupId>icu.namophice</groupId>
     <artifactId>ink-photo-album</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
