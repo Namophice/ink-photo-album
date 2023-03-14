@@ -11,7 +11,7 @@
 ![效果图3](https://lsky-pro.namophice.icu/0omx8h.jpg "微信图片_20210807125148.jpg")
 
 #### 相关链接
-    http://gitlab.namophice.icu/namophice/ink-photo-album.git
+    https://gitlab.namophice.icu/namophice/ink-photo-album.git
     https://github.com/Namophice/ink-photo-album
     https://gitee.com/namophice/ink-photo-album
     https://zhuanlan.zhihu.com/p/397304172
