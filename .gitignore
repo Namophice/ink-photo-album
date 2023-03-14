@@ -17,3 +17,5 @@ gradle-app.setting
 cache
 error.log
 gradle/
+target
+logs

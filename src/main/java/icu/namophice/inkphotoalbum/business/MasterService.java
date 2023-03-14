@@ -5,15 +5,16 @@ import icu.namophice.inkphotoalbum.driver.EPaper;
 import icu.namophice.inkphotoalbum.utils.CommonUtil;
 import icu.namophice.inkphotoalbum.utils.ImageUtil;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Namophice
@@ -21,19 +22,19 @@ import java.util.regex.Pattern;
  */
 public class MasterService {
 
-    public static void master() throws IOException, InterruptedException {
+    public static void master() throws Exception {
         CommonUtil.printLogToConsole("The master program is running ...");
 
+        final EPaper ePaper = EPaper.getInstance();
+        ePaper.init();
+
+        // 从cache文件获取imageIndex
+        DefaultConfig.initImageIndexWithCache();
         if (DefaultConfig.imageIndex < 0) {
             DefaultConfig.imageIndex = 0;
         }
-
-        EPaper ePaper = EPaper.getInstance();
-        ePaper.init();
-
         if (DefaultConfig.imageIndex == 0) {
             BufferedImage defaultImage = ImageUtil.getImageToScreen();
-
             CommonUtil.printLogToConsole("Print images to screen ...");
             ePaper.drawImage(defaultImage);
         }
@@ -44,7 +45,7 @@ public class MasterService {
             CommonUtil.printLogToConsole("Enabled local images mode ...");
 
             CommonUtil.printLogToConsole("Find images directory ...");
-            File imagesDir = new File(CommonUtil.rootPath + "/" + DefaultConfig.imagePath);
+            final File imagesDir = new File(CommonUtil.rootPath + "/" + DefaultConfig.imagePath);
 
             if (imagesDir.exists()) {
                 if (imagesDir.isDirectory()) {
@@ -52,7 +53,6 @@ public class MasterService {
 
                     CommonUtil.printLogToConsole("Find images files ...");
                     File[] imageList = imagesDir.listFiles();
-                    imagesDir = null;
 
                     if (imageList == null || imageList.length < 1) {
                         DefaultConfig.imageIndex = 0;
@@ -84,70 +84,56 @@ public class MasterService {
                 DefaultConfig.imageIndex = 0;
             }
 
-            StringBuffer htmlStr = new StringBuffer();
-
-            InputStream inputStream = null;
-            InputStreamReader inputStreamReader = null;
-            BufferedReader bufferedReader = null;
-
+            final StringBuilder imageUrlStr = new StringBuilder();
             try {
-                URL url = new URL("https://wall.alphacoders.com/popular.php?page=" + (DefaultConfig.imageIndex + 1));
-                inputStream = url.openStream();
-                inputStreamReader = new InputStreamReader(inputStream, "utf-8");
-                bufferedReader = new BufferedReader(inputStreamReader);
+                final URL url = new URL(DefaultConfig.imageUrlArr[new Random().nextInt(DefaultConfig.imageUrlArr.length)]);
 
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    htmlStr.append(line).append("\n");
-                }
+                trustAllHttpsCertificates();
+                HostnameVerifier hv = (urlHostName, session) -> {
+                    System.out.println("Warning: URL Host: " + urlHostName + " vs. " + session.getPeerHost());
+                    return true;
+                };
+                HttpsURLConnection.setDefaultHostnameVerifier(hv);
 
-                bufferedReader.close();
+                final HttpURLConnection conn = (HttpURLConnection) (url.openConnection());
+                final URL imageUrl = conn.getURL();
+                imageUrlStr.append(imageUrl.getProtocol()).append("://").append(imageUrl.getHost()).append(imageUrl.getPath());
             } catch (IOException e) {
                 DefaultConfig.imageIndex = 0;
                 throw e;
-            }finally {
-                try {
-                    if(bufferedReader!=null){
-                        bufferedReader.close();
-                        bufferedReader=null;
-                    }
-                    if(inputStreamReader!=null){
-                        inputStreamReader.close();
-                        inputStreamReader=null;
-                    }
-                    if(inputStream!=null){
-                        inputStream.close();
-                        inputStream=null;
-                    }
-                } catch (IOException e) {
-                    throw e;
-                }
             }
 
-            if (htmlStr.length() > 0) {
-                final List<String> imageUrlList = new ArrayList<>();
-
-                final String IMGURL_REG = "(https://images(.*)thumbbig-(\\d*).jpg)";
-                Matcher matcher = Pattern.compile(IMGURL_REG).matcher(htmlStr);
-                while (matcher.find()){
-                    imageUrlList.add(matcher.group());
-                }
-
-                if (imageUrlList.size() < 1) {
-                    DefaultConfig.imageIndex = 0;
-                    return;
-                }
-
-                String imageUrl = imageUrlList.get(new Random().nextInt(imageUrlList.size()));
-                imageUrl = imageUrl.replace("/thumbbig-", "/");
-
-                BufferedImage targetImage = ImageUtil.getImageToScreen(imageUrl, true);
+            if (imageUrlStr.length() > 0) {
+                BufferedImage targetImage = ImageUtil.getImageToScreen(imageUrlStr.toString(), true);
 
                 CommonUtil.printLogToConsole("Print images to screen ...");
                 ePaper.drawImage(targetImage);
-
                 DefaultConfig.imageIndex++;
             }
+        }
+    }
+
+    /**
+     * 跳过SSL证书验证
+     * @throws Exception
+     */
+    private static void trustAllHttpsCertificates() throws Exception {
+        javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
+        javax.net.ssl.TrustManager tm = new miTM();
+        trustAllCerts[0] = tm;
+        javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, null);
+        javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+    }
+
+    private static class miTM implements javax.net.ssl.TrustManager, javax.net.ssl.X509TrustManager {
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType) {}
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType) {}
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return null;
         }
     }
 

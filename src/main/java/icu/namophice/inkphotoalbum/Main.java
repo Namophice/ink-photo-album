@@ -17,9 +17,6 @@ public class Main {
             // 初始化配置
             DefaultConfig.initConfig();
 
-            // 从cache文件获取imageIndex
-            DefaultConfig.initImageIndexWithCache();
-
             // 进入主流程
             MasterService.master();
         } catch (Exception e) {
