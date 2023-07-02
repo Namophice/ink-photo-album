@@ -7,7 +7,6 @@ import icu.namophice.inkphotoalbum.utils.ImageUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -87,30 +86,6 @@ public class MasterService {
             CommonUtil.printLogToConsole("Print images to screen ...");
             ePaper.drawImage(targetImage);
             DefaultConfig.imageIndex++;
-        }
-    }
-
-    /**
-     * 跳过SSL证书验证
-     * @throws Exception
-     */
-    private static void trustAllHttpsCertificates() throws Exception {
-        javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
-        javax.net.ssl.TrustManager tm = new miTM();
-        trustAllCerts[0] = tm;
-        javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext.getInstance("SSL");
-        sc.init(null, trustAllCerts, null);
-        javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-    }
-
-    private static class miTM implements javax.net.ssl.TrustManager, javax.net.ssl.X509TrustManager {
-        @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) {}
-        @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) {}
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return null;
         }
     }
 

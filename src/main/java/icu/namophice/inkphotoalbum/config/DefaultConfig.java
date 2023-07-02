@@ -17,8 +17,7 @@ public class DefaultConfig {
             "https://www.dmoe.cc/random.php",
             "https://cdn.seovx.com/d/?mom=302",
             "https://api.paugram.com/wallpaper/",
-            "https://api.yimian.xyz/img",
-            "https://img.xjh.me/random_img.php"
+            "https://api.yimian.xyz/img"
     };
 
     public static final String configFileName = "conf.json";
