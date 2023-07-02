@@ -5,6 +5,6 @@
 while true
 do
         cd /opt/software/ink-photo-album
-        /usr/bin/sudo /usr/bin/java -jar /opt/software/ink-photo-album/ink-photo-album-1.0-SNAPSHOT-all.jar
+        /usr/bin/sudo /usr/bin/java -jar /opt/software/ink-photo-album/ink-photo-album-1.0.jar
         sleep 5m
 done

@@ -14,12 +14,11 @@ import java.io.FileReader;
 public class DefaultConfig {
 
     public static final String[] imageUrlArr = {
-            "https://api.ixiaowai.cn/api/api.php",
-            "https://api.ixiaowai.cn/api/api2.php",
-            "https://api.ixiaowai.cn/mcapi/mcapi.php",
-            "https://api.ixiaowai.cn/mcapi/mcapi2.php",
-            "https://api.ixiaowai.cn/gqapi/gqapi.php",
-            "https://api.ixiaowai.cn/gqapi/gqapi2.php"
+            "https://www.dmoe.cc/random.php",
+            "https://cdn.seovx.com/d/?mom=302",
+            "https://api.paugram.com/wallpaper/",
+            "https://api.yimian.xyz/img",
+            "https://img.xjh.me/random_img.php"
     };
 
     public static final String configFileName = "conf.json";
