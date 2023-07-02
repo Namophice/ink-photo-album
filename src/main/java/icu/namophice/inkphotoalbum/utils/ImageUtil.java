@@ -317,6 +317,7 @@ public class ImageUtil {
         final int height = originImage.getHeight();
 
         BufferedImage targetImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+        final int maxValue = 0xf73140, minValue = 0x83fd10;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 int rgb = originImage.getRGB(i, j);
@@ -325,14 +326,18 @@ public class ImageUtil {
                 int binValue;
 
                 // 0是黑  1是白 ，或者说数值小就靠近黑色，数值大就靠近白色
-                if(oneGate > 0xec82e0) { // 大于一定数值，直接用白点
+                if (oneGate > maxValue) { // 大于一定数值，直接用白点
                     binValue = 0xffffff;
-                } else if(oneGate < 0x6ea050) { // 小于一定数值直接用黑点
+                } else if (oneGate < minValue) { // 小于一定数值直接用黑点
                     binValue = 0;
-                } else if(oneGate > randomNum) { // 模拟灰阶使用随机数画白点
-                    binValue = 0xffffff;
                 } else {
-                    binValue = 0;
+                    // 模拟灰阶使用随机数画白点
+                    final int random = new Random().nextInt(100);
+                    if (oneGate > ((maxValue - minValue) / 2) + minValue) {
+                        binValue = random < 60 ? 0xffffff : 0;
+                    } else {
+                        binValue = random < 80 ? 0 : 0xffffff;
+                    }
                 }
                 targetImage.setRGB(i, j, binValue);
             }
